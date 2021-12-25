@@ -9,6 +9,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 
+require('./controllers/index')(app);
+
 app.listen(PORT, () =>{
     console.log(`Server started on port ${PORT}`);
 });
