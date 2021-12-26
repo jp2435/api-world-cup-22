@@ -33,7 +33,7 @@ const TeamSchema = new mongoose.Schema({
     }],
     gamesPlayed: {
         type: Number,
-        default: games.length
+        default: 0
     },
     group: {
         type: mongoose.Schema.Types.ObjectId,
