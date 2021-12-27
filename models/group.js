@@ -5,7 +5,8 @@ const GroupSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uppercase: true
     },
     createdAt: {
         type: Date,
