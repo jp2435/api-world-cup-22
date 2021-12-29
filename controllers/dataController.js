@@ -103,7 +103,7 @@ router.delete('/team/:idTeam', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
         if(!(AcessCodeDev==authConfig.AcessCodeDev)){
-            return res.status(401).send({error: 'Unauthorized to deleye team'});
+            return res.status(401).send({error: 'Unauthorized to delete team'});
         };
         await Team.findByIdAndDelete(req.params.idTeam);
 
@@ -111,6 +111,65 @@ router.delete('/team/:idTeam', async(req,res) => {
     }catch(err){
         return res.send({
             error: 'Error deleting team'
+        });
+    };
+});
+
+
+// Game Data
+
+router.post('/game', async(req,res) => {
+    try{
+        const {homeTeam, visitingTeam, date, local, AcessCodeDev} = req.body;
+        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+            return res.status(401).send({error: 'Unauthorized to create game'});
+        };
+        const homeTeamReq = await Team.findOne({name: homeTeam});
+        const visitingTeamReq = await Team.findOne({name: visitingTeam});
+        
+        const game = await Game.create({ homeTeam: homeTeamReq._id, visitingTeam: visitingTeamReq._id, local: local, date: date});
+
+        await homeTeamReq.games.push(game);
+        await homeTeamReq.save();
+        await visitingTeamReq.games.push(game);
+        await visitingTeamReq.save();
+
+        return res.send({game});
+    }catch(err){
+        console.log(err)
+        return res.status(400).send({
+            error: 'Error creating game'
+        });
+    };
+});
+
+router.put('/game/:idGame', async(req,res) => {
+    try{
+        const {AcessCodeDev} = req.body;
+        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+            return res.status(401).send({error: 'Unauthorized to edit game'});
+        };
+        const game = await Game.findByIdAndUpdate(req.params.idGame, {...req.body}, {new:true});
+        
+        return res.send({game});
+    }catch(err){
+        return res.status(400).send({
+            error: 'Error editing game'
+        });
+    };
+});
+
+router.delete('/game/:idGame', async(req,res) => {
+    try{
+        const {AcessCodeDev} = req.body;
+        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+            return res.status(401).send({error: 'Unauthorized to delete game'});
+        };
+        await Game.findByIdAndDelete(req.params.idGame);
+        return res.send({ok: true});
+    }catch(err){
+        return res.status(400).send({
+            error: 'Error deleting game'
         });
     };
 });
