@@ -32,12 +32,13 @@ router.get('/group', async(req,res) => {
             });
         };
         const group = await Group.findOne({name: req.query.name});
+        const teams = await Team.find({group: group._id});
 
-        return res.send({group});
+        return res.send({group, teams});
     }catch(err){
         return res.status(400).send({
-            error: 'Eror'
-        })
+            error: `Error getting group with name: ${req.query.name}`
+        });
     };
 });
 
@@ -48,7 +49,7 @@ router.get('/groups', async(req,res) => {
         return res.send({groups});
     }catch(err){
         return res.status(400).send({
-            error: 'Error gettings all groups'
+            error: 'Error getting all groups'
         });
     };
 });
