@@ -104,4 +104,31 @@ router.get('/teams', async(req,res) => {
     };
 });
 
+// Game Get Routes
+
+router.get('/game/:idGame', async(req,res) => {
+    try{
+        const game = await Game.findById(req.params.idGame).populate(['homeTeam', 'visitingTeam']);
+
+        return res.send({game});
+    }catch(err){
+        console.log(err)
+        return res.status(400).send({
+            error: `Error getting game with id:${req.params.idGame}`
+        })
+    };
+});
+
+router.get('/games', async(req,res) => {
+    try{
+        const games = await Game.find().populate(['homeTeam', 'visitingTeam']);
+
+        return res.send({games});
+    }catch(err){
+        return res.status(400).send({
+            error: 'Error getting all games'
+        });
+    };
+});
+
 module.exports = app => app.use('/get', router);
