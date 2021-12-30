@@ -112,7 +112,6 @@ router.get('/game/:idGame', async(req,res) => {
 
         return res.send({game});
     }catch(err){
-        console.log(err)
         return res.status(400).send({
             error: `Error getting game with id:${req.params.idGame}`
         })
