@@ -11,51 +11,103 @@ The tools used in the project are:
 - [MongoDB](https://www.mongodb.com)
 ---
 
-# Documentation
-### Get (Read)
+## Documentation
 
-### Group
+### Group Routes
+#### Returns a group
 
-#### /get/group/:idGroup
-- Need to use Authorization Token
-- Declare _idGroup_ parameter with the group ID 
+```http
+  GET /get/group/${idGroup}
+  Authorization: ${Token}
+```
 
-#### /get/group/?name={name}
-- Need to use Authorization Token
-- Declare _name_ query
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `idGroup`   | `string`   | **Required**. ID of group you want |
+| `Token`     | `string`    |   **Required**. Your account Token|
+  ---
+```http
+  GET /get/group/?name=${nameGroup}
+  Authorization: ${Token}
+```
 
-#### /get/groups
-- Only need to use Authorization Token
+| Parameter | Type | Description|
+|:--------- | :---- | :--------- |
+| `nameGroup` | `string` | For search in database using group name instead of ID |
+| `Token`     | `string`    |   **Required**. Your account Token|
 
-### Team
+#### Returns all groups
 
-#### /get/team/:idTeam
-- Need to use Authorization Token
-- Declare _idTeam_ parameter with the team ID 
+```http
+  GET /get/groups/
+  Authorization: ${Token}
+```
 
-#### /get/team/?name={name}
-- Need to use Authorization Token
-- Declare _name_ query
+| Parameter | Type | Description |
+| :-------  | :--- | :---------- |
+| `Token`     | `string`    |   **Required**. Your account Token|
 
-#### /get/teams
-- Only need to use Authorization Token
+### Team Routes
+#### Returns a team
 
-#### /get/teams?group={groupName}
-- Need to use Authorization Token
-- Declare _group_ query
+```http
+  GET /get/team/${idTeam}
+  Authorization: ${Token}
+```
 
-### Game
+| Parameter | Type | Description |
+| :-------  | :--- | :---------- |
+| `idTeam` | `string` | **Required**. ID of team you want
+| `Token`     | `string`    |   **Required**. Your account Token|
+  ---
+```http
+  GET /get/team/?name=${nameTeam}
+  Authorization: ${Token}
+```
 
-##### /get/game/:idGame
-- Need to use Authorization Token
-- Declare _idGame_ parameter with the game ID 
+| Parameter | Type | Description|
+|:--------- | :---- | :--------- |
+| `nameTeam` | `string` | For search in database using group name instead of ID |
+| `Token`     | `string`    |   **Required**. Your account Token|
 
-##### /get/game/?name={name} Not used on v.1.0.0
-- Need to use Authorization Token
-- Declare _name_ query
+#### Returns all teams
+```http
+  GET /get/teams
+  Authorization: ${Token}
+```
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+| `Token`     | `string`    |   **Required**. Your account Token|
 
-##### /get/games
-- Only need to use Authorization Token
+#### Returns all teams in a group
+```http
+  GET /get/teams/?group={groupName}
+  Authorization: ${Token}
+```
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+| `groupName` | `string` | Name of the group from which you want the teams |
+| `Token`     | `string`    |   **Required**. Your account Token|
+
+### Game Routes
+#### Returns a game
+```http
+  GET get/game/:${idGame}
+  Authorization: ${Token}
+```
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+| `idGame` | `string` | **Required**. ID of game you want |
+| `Token`     | `string`    |   **Required**. Your account Token|
+
+#### Returns all game
+```http
+  GET /get/games/
+  Authorization: ${Token}
+```
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+| `Token`     | `string`    |   **Required**. Your account Token|
 
 
 ### Author
