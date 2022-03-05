@@ -2,6 +2,10 @@ const mongoose = require('../database');
 const bcrypt = require('bcrypt');
 
 const GameSchema = new mongoose.Schema({
+    typeGame:{
+        type: String,
+        required: true
+    },
     homeTeam: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Team',

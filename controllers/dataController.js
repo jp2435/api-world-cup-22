@@ -120,14 +120,14 @@ router.delete('/team/:idTeam', async(req,res) => {
 
 router.post('/game', async(req,res) => {
     try{
-        const {homeTeam, visitingTeam, date, local, AcessCodeDev} = req.body;
+        const {typeGame, homeTeam, visitingTeam, date, local, AcessCodeDev} = req.body;
         if(!(AcessCodeDev==authConfig.AcessCodeDev)){
             return res.status(401).send({error: 'Unauthorized to create game'});
         };
         const homeTeamReq = await Team.findOne({name: homeTeam});
         const visitingTeamReq = await Team.findOne({name: visitingTeam});
         
-        const game = await Game.create({ homeTeam: homeTeamReq._id, visitingTeam: visitingTeamReq._id, local: local, date: date});
+        const game = await Game.create({ typeGame: typeGame, homeTeam: homeTeamReq._id, visitingTeam: visitingTeamReq._id, local: local, date: date});
 
         await homeTeamReq.games.push(game);
         await homeTeamReq.save();
