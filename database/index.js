@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const authConfig = require('../config/auth');
 
-mongoose.connect(authConfig.mongodbConnection)
+mongoose.connect(process.env.MONGODBCONNECTION)
 .then(() => {
     console.log("Successful connection with MongoDB");
 }).catch((err) => {

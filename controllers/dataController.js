@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
-const authConfig = require('../config/auth');
 
 const Group = require('../models/group');
 const Team = require('../models/team');
 const Game = require('../models/game');
+
+const AcessCodeDevEnv = process.env.ACESSCODEDEV
 
 router.use(authMiddleware);
 
@@ -15,7 +16,7 @@ router.use(authMiddleware);
 router.post('/group', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to create group'});
         };
         const group = await Group.create(req.body);
@@ -30,7 +31,7 @@ router.post('/group', async(req,res) => {
 router.put('/group/:idGroup', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to edit group'});
         };
         const group = await Group.findByIdAndUpdate(req.params.idGroup, req.body, {new: true});
@@ -46,7 +47,7 @@ router.put('/group/:idGroup', async(req,res) => {
 router.delete('/group/:idGroup', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev=AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to delete group'});
         };
         
@@ -66,7 +67,7 @@ router.delete('/group/:idGroup', async(req,res) => {
 router.post('/team', async(req,res) => {
     try{
         const { name, group, AcessCodeDev } = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to create team'});
         };
         if(await Team.findOne({name})){
@@ -86,7 +87,7 @@ router.post('/team', async(req,res) => {
 router.put('/team/:idTeam', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to edit team'});
         };
         const team = await Team.findByIdAndUpdate(req.params.idTeam, {...req.body}, {new: true}).populate('group');
@@ -102,7 +103,7 @@ router.put('/team/:idTeam', async(req,res) => {
 router.delete('/team/:idTeam', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to delete team'});
         };
         await Team.findByIdAndDelete(req.params.idTeam);
@@ -121,7 +122,7 @@ router.delete('/team/:idTeam', async(req,res) => {
 router.post('/game', async(req,res) => {
     try{
         const {typeGame, homeTeam, visitingTeam, date, local, AcessCodeDev} = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to create game'});
         };
         const homeTeamReq = await Team.findOne({name: homeTeam});
@@ -146,7 +147,7 @@ router.post('/game', async(req,res) => {
 router.put('/game/:idGame', async(req,res) => {
     try{
         const {AcessCodeDev} = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to edit game'});
         };
         const game = await Game.findByIdAndUpdate(req.params.idGame, {...req.body}, {new:true});
@@ -162,7 +163,7 @@ router.put('/game/:idGame', async(req,res) => {
 router.delete('/game/:idGame', async(req,res) => {
     try{
         const {AcessCodeDev} = req.body;
-        if(!(AcessCodeDev==authConfig.AcessCodeDev)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to delete game'});
         };
         await Game.findByIdAndDelete(req.params.idGame);

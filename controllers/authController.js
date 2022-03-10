@@ -4,11 +4,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const authConfig = require('../config/auth');
+const SecretEnv = process.env.SECRET;
+const AcessCodeEnv = process.env.ACESSCODE;
 const User = require( '../models/user');
 
 function generateToken(params = {}){
-    return jwt.sign(params, authConfig.secret, {
+    return jwt.sign(params, SecretEnv, {
         expiresIn: 5184000
     });
 };
@@ -16,7 +17,7 @@ function generateToken(params = {}){
 router.post('/register', async(req,res) => {
     const { email, AcessCode } = req.body
     try{
-        if(AcessCode!=authConfig.AcessCode){
+        if(AcessCode!=AcessCodeEnv){
             return res.status(401).send({
                 error: 'Unauthorized to register, contact an admin'
             });
