@@ -10,7 +10,7 @@ const User = require( '../models/user');
 
 function generateToken(params = {}){
     return jwt.sign(params, SecretEnv, {
-        expiresIn: 5184000
+        expiresIn: 7257600
     });
 };
 
