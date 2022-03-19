@@ -47,7 +47,7 @@ router.put('/group/:idGroup', async(req,res) => {
 router.delete('/group/:idGroup', async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
-        if(!(AcessCodeDev=AcessCodeDevEnv)){
+        if(!(AcessCodeDev==AcessCodeDevEnv)){
             return res.status(401).send({error: 'Unauthorized to delete group'});
         };
         
