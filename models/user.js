@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         select: false
     },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -41,6 +45,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre('save', async function(next){
     const hash = await bcrypt.hash(this.password, 10);
     this.password = hash;
+    this.updatedAt = Date.now()
     next();
 });
 

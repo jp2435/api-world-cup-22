@@ -8,6 +8,10 @@ const GroupSchema = new mongoose.Schema({
         unique: true,
         uppercase: true
     },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -15,5 +19,10 @@ const GroupSchema = new mongoose.Schema({
 });
 
 const Group = mongoose.model('Group', GroupSchema);
+
+GroupSchema.pre('save', (next) => {
+    this.updatedAt = Date.now()
+    next()
+})
 
 module.exports = Group;

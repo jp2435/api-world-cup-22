@@ -32,6 +32,10 @@ const GameSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -39,5 +43,10 @@ const GameSchema = new mongoose.Schema({
 });
 
 const Game = mongoose.model('Game', GameSchema);
+
+GameSchema.pre('save', (next) => {
+    this.updateAt = Date.now()
+    next()
+})
 
 module.exports = Game;

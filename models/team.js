@@ -39,6 +39,10 @@ const TeamSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Group'
     },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -46,5 +50,10 @@ const TeamSchema = new mongoose.Schema({
 });
 
 const Team = mongoose.model('Team', TeamSchema);
+
+TeamSchema.pre('save', (next) => {
+    this.updatedAt = Date.now()
+    next()
+})
 
 module.exports = Team;

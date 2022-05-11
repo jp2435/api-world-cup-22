@@ -15,7 +15,32 @@ router.get('/group/:idGroup', async(req,res) => {
         const group = await Group.findById(req.params.idGroup);
         const teams = await Team.find({group: group._id});
 
-        return res.send({group, teams});
+        const response = {
+            group: {
+                id: group._id,
+                name: group.name,
+                createdAT: group.createdAt
+            },
+            teams: teams.map(team => {
+                return {
+                    idTeam: team._id,
+                    name: team.name,
+                    continent: team.continent,
+                    status: team.status ? 'Participating' : 'disqualified',
+                    points: team.points,
+                    goalsFor: team.goalsFor,
+                    goalsAgainst: team.goalsAgainst,
+                    gamesPlayed: team.gamesPlayed,
+                    createdAt: team.createdAt
+                }
+            }),
+            request: {
+                type: 'GET',
+                url: req.baseUrl + req.url
+            }
+        }
+
+        return res.send(response);
     }catch(err){
         return res.status(400).send({
             error: `Error getting group with id:${req.params.idGroup}`
@@ -33,7 +58,33 @@ router.get('/group', async(req,res) => {
         const group = await Group.findOne({name: req.query.name});
         const teams = await Team.find({group: group._id});
 
-        return res.send({group, teams});
+        const response = {
+            group: {
+                id: group._id,
+                name: group.name,
+                createdAT: group.createdAt
+            },
+            teams: teams.map(team => {
+                return {
+                    idTeam: team._id,
+                    name: team.name,
+                    continent: team.continent,
+                    status: team.status ? 'Participating' : 'disqualified',
+                    points: team.points,
+                    goalsFor: team.goalsFor,
+                    goalsAgainst: team.goalsAgainst,
+                    gamesPlayed: team.gamesPlayed,
+                    createdAt: team.createdAt
+                }
+            }),
+            request: {
+                type: 'GET',
+                url: req.baseUrl + req.url
+            }
+        }
+
+        return res.send(response);
+        // return res.send({group, teams});
     }catch(err){
         return res.status(400).send({
             error: `Error getting group with name: ${req.query.name}`
@@ -45,7 +96,20 @@ router.get('/groups', async(req,res) => {
     try{
         const groups = await Group.find();
 
-        return res.send({groups});
+        const reponse = {
+            groups: groups.map(group => {
+                return {
+                    id: group._id,
+                    name: group.name,
+                    createdAt: group.createdAt
+                }
+            }),
+            request: {
+                type: 'GET',
+                url: req.baseUrl + req.url,
+            }
+        }
+        return res.send(reponse);
     }catch(err){
         return res.status(400).send({
             error: 'Error getting all groups'
