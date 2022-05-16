@@ -10,7 +10,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 
-require('./controllers/index')(app);
+require('./routes/index')(app);
 
 app.use((req, res, next) => {
     const erro = new Error('Route not found');
