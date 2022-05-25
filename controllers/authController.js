@@ -1,8 +1,5 @@
-const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 
 const SecretEnv = process.env.SECRET;
 const AcessCodeEnv = process.env.ACESSCODE;
@@ -14,7 +11,7 @@ function generateToken(params = {}){
     });
 };
 
-router.post('/register', async(req,res) => {
+exports.createUser = async(req,res) => {
     const { email, AcessCode } = req.body
     try{
         if(AcessCode!=AcessCodeEnv){
@@ -28,7 +25,7 @@ router.post('/register', async(req,res) => {
             });
         };
         const user = await User.create(req.body);
-        user.password = undefined; // To dont show the password
+        user.password = undefined;
 
         return res.send({
             user,
@@ -40,9 +37,9 @@ router.post('/register', async(req,res) => {
             error: 'Registration failed'
         });
     };
-});
+};
 
-router.post('/authenticate', async(req,res) => {
+exports.loginUser = async(req,res) => {
     const {email, password} = req.body;
     const user = await User.findOne({email}).select('+password');
 
@@ -62,6 +59,4 @@ router.post('/authenticate', async(req,res) => {
         user,
         token: generateToken({id:user.id})
     });
-});
-
-module.exports = app => app.use('/auth', router);
+};
