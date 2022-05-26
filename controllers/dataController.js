@@ -1,19 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const authMiddleware = require('../middleware/auth');
-
 const Group = require('../models/group');
 const Team = require('../models/team');
 const Game = require('../models/game');
 
 const AcessCodeDevEnv = process.env.ACESSCODEDEV
 
-router.use(authMiddleware);
-
 
 // Group Data
-
-router.post('/group', async(req,res) => {
+exports.createGroup = async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -26,9 +19,8 @@ router.post('/group', async(req,res) => {
             error: 'Error creating group'
         });
     };
-});
-
-router.put('/group/:idGroup', async(req,res) => {
+};
+exports.editGroup = async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -42,9 +34,8 @@ router.put('/group/:idGroup', async(req,res) => {
             error: 'Error editing group'
         });
     };
-});
-
-router.delete('/group/:idGroup', async(req,res) => {
+};
+exports.deleteGroup = async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -59,12 +50,10 @@ router.delete('/group/:idGroup', async(req,res) => {
             error: 'Error deleting group'
         })
     }
-});
-
+};
 
 // Team Data
-
-router.post('/team', async(req,res) => {
+exports.createTeam = async(req,res) => {
     try{
         const { name, group, AcessCodeDev } = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -82,9 +71,8 @@ router.post('/team', async(req,res) => {
             error: 'Error creating team'
         });
     };
-});
-
-router.put('/team/:idTeam', async(req,res) => {
+};
+exports.editTeam = async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -98,9 +86,8 @@ router.put('/team/:idTeam', async(req,res) => {
             error: 'Error editing team'
         });
     };
-});
-
-router.delete('/team/:idTeam', async(req,res) => {
+};
+exports.deleteTeam = async(req,res) => {
     try{
         const { AcessCodeDev } = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -114,12 +101,10 @@ router.delete('/team/:idTeam', async(req,res) => {
             error: 'Error deleting team'
         });
     };
-});
-
+};
 
 // Game Data
-
-router.post('/game', async(req,res) => {
+exports.createGame = async(req,res) => {
     try{
         const {typeGame, homeTeam, visitingTeam, date, local, AcessCodeDev} = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -142,9 +127,8 @@ router.post('/game', async(req,res) => {
             error: 'Error creating game'
         });
     };
-});
-
-router.put('/game/:idGame', async(req,res) => {
+};
+exports.editGame = async(req,res) => {
     try{
         const {AcessCodeDev} = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -158,9 +142,8 @@ router.put('/game/:idGame', async(req,res) => {
             error: 'Error editing game'
         });
     };
-});
-
-router.delete('/game/:idGame', async(req,res) => {
+};
+exports.deleteGame = async(req,res) => {
     try{
         const {AcessCodeDev} = req.body;
         if(!(AcessCodeDev==AcessCodeDevEnv)){
@@ -173,6 +156,4 @@ router.delete('/game/:idGame', async(req,res) => {
             error: 'Error deleting game'
         });
     };
-});
-
-module.exports = app => app.use('/data', router);
+};
